@@ -1,4 +1,4 @@
-public class AuthenticationDetailQueueable implements Queueable {
+public class AuthenticationDetailQueueable implements Queueable, Database.AllowsCallouts {
     public void execute(QueueableContext context) {
 
         RecepientOrg__c leadConfig = [SELECT Password__c, Username__c, Client_Id__c, Client_Secret__c FROM RecepientOrg__c LIMIT 1];
