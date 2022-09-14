@@ -4,7 +4,7 @@
             <p if:true={isLoaded}>Lead synced successfully.</p>
             <div if:false={isLoaded} class="slds-is-relative">
                 <lightning-spinner size="small" alternative-text="Loading..."></lightning-spinner>
-        </div>
+            </div>
         </div>
         <div slot="footer">
             <lightning-button label="Toggle" variant="neutral" onclick={toggle}></lightning-button>
