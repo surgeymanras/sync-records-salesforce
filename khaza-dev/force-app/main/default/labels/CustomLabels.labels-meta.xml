@@ -7,4 +7,11 @@
         <shortDescription>Address for integration org</shortDescription>
         <value>https://login.salesforce.com/services/oauth2/token</value>
     </labels>
+    <labels>
+        <fullName>Second_part_for_recipient_org</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Second part for recipient org</shortDescription>
+        <value>/services/data/v48.0/sobjects/Lead</value>
+    </labels>
 </CustomLabels>

@@ -5,8 +5,8 @@ public with sharing class SyncLeadButtonController {
         RecepientOrgTokens__c tokenAndInstance = [SELECT Token__c, Instance_URL__c FROM RecepientOrgTokens__c LIMIT 1];
         Lead leadInfo = [SELECT Salutation, FirstName, LastName, Company, Status FROM Lead LIMIT 1];
 
-        // TODO: create Custom Label
-        String endpoint = tokenAndInstance.Instance_URL__c + '/services/data/v48.0/sobjects/Lead';
+        String customLabel = System.Label.Second_part_for_recipient_org;
+        String endpoint = tokenAndInstance.Instance_URL__c + customLabel;
         
         Map<String, String> headers = new Map<String, String>();
         headers.put('Authorization', 'Bearer ' + tokenAndInstance.Token__c);
@@ -22,6 +22,5 @@ public with sharing class SyncLeadButtonController {
         Http http = new Http();
         HttpRequest request = HttpCalloutManager.createRequest('POST', endpoint, JSON.serialize(body), headers);
         HTTPResponse response = http.send(request);
-        System.debug('response ' + response);
     }
 }
