@@ -1,6 +1,7 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, wire } from 'lwc';
 import { CurrentPageReference } from 'lightning/navigation';
 import { CloseActionScreenEvent } from 'lightning/actions';
+import syncLead from '@salesforce/apex/SyncLeadButtonController.syncLead';
 
 export default class SyncLeadButton extends LightningElement {
     recordId;
@@ -14,7 +15,14 @@ export default class SyncLeadButton extends LightningElement {
     }
 
     connectedCallback(){
-        console.log('Hello from connectedCallback', this.recordId);
+        syncLead({ recordId: this.recordId })
+            .then(() => {
+                this.toggle();
+            })
+            .catch(error => {
+                this.toggle();
+                console.error('Error:', error);
+            });
     }
 
     toggle() {
