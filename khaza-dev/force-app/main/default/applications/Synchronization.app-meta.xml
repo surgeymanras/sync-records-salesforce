@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomApplication xmlns="http://soap.sforce.com/2006/04/metadata">
+    <brand>
+        <headerColor>#2294A4</headerColor>
+        <logo>images</logo>
+        <logoVersion>1</logoVersion>
+        <shouldOverrideOrgTheme>false</shouldOverrideOrgTheme>
+    </brand>
+    <description>Sync between two orgs</description>
+    <formFactors>Small</formFactors>
+    <formFactors>Large</formFactors>
+    <isNavAutoTempTabsDisabled>false</isNavAutoTempTabsDisabled>
+    <isNavPersonalizationDisabled>false</isNavPersonalizationDisabled>
+    <label>Synchronization</label>
+    <navType>Standard</navType>
+    <tabs>Sync_Integration_Authorization</tabs>
+    <tabs>standard-Lead</tabs>
+    <tabs>Sync__c</tabs>
+    <uiType>Lightning</uiType>
+    <utilityBar>Synchronization_UtilityBar</utilityBar>
+</CustomApplication>

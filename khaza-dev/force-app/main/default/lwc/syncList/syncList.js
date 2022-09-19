@@ -1,20 +1,28 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, wire, track } from 'lwc';
 import saveButton from '@salesforce/apex/SyncListController.saveButton';
-
+import {ShowToastEvent} from "lightning/platformShowToastEvent";
 export default class SyncList extends LightningElement {
-    UsernameValue;
-    PasswordValue;
-    ClientIDValue;
-    ClientSecretValue;
-
+    username;
+    password;
+    clientID;
+    clientSecret;
+    selectedEnv;
     value = '';
-
-    get options() {
-        return [
-            { label: 'Sandbox', value: 'option1' },
-            { label: 'Production', value: 'option2' },
+    
+    @track sandboxFieldValue = true;
+    
+    @track productionFieldValue = false; 
+    
+    get options() { 
+        return  [
+            { label: 'Sandbox', value: 'sandbox' },
+            { label: 'Production', value: 'production' },
         ];
-    } 
+    }
+
+    handleRadioChange(event) {
+        this.selectedEnv = event.detail.value;
+    }
 
     handleUsernameChange(event){
         this.username = event.target.value;
@@ -33,11 +41,13 @@ export default class SyncList extends LightningElement {
     }
 
     save() {
-        saveButton({ username : this.username,
-                     password : this.password,
-                     clientID : this.clientID,
-                     clientSecret : this.clientSecret
-                    })
+        saveButton({ 
+            username : this.username,
+            password : this.password,
+            clientID : this.clientID,
+            clientSecret : this.clientSecret,
+            env : this.selectedEnv,
+        })
             .then((result) => {
                 this.save();
                 console.log('Success:', result)
@@ -46,5 +56,13 @@ export default class SyncList extends LightningElement {
                 this.save();
                 console.error('Error:', error);
             });
+
+            const evt = new ShowToastEvent({
+                title: 'Sync Message',
+                message: 'Success saved',
+                variant: 'success',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(evt);
     }
 }

@@ -8,8 +8,10 @@
             <lightning-radio-group name="radioGroup"
                           label="Organization"
                           options={options}
-                          value={Orgvalue}
-                          type="radio">
+                          value={selectedOrganizaton}
+                          type="radio"
+                          onchange={handleRadioChange}
+                          required>
             </lightning-radio-group>
             <lightning-button
                 type="submit"

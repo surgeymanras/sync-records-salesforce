@@ -1,15 +1,15 @@
 public class AuthenticationDetailQueueable implements Queueable, Database.AllowsCallouts {
     public void execute(QueueableContext context) {
 
-        RecepientOrg__c leadConfig = [SELECT Password__c, Username__c, Client_Id__c, Client_Secret__c FROM RecepientOrg__c LIMIT 1];
+        RecepientOrg__c leadConfig = [SELECT Password__c, Username__c, Client_Id__c, Client_Secret__c, BaseURL__c FROM RecepientOrg__c LIMIT 1];
         String queryParams = '?grant_type=password&password=' + leadConfig.Password__c + '&username=' + leadConfig.Username__c +  '&client_id=' + leadConfig.Client_Id__c + '&client_secret=' + leadConfig.Client_Secret__c;
        
         Http http = new Http();
         HttpRequest request = new HttpRequest();
         request.setMethod('POST');
         request.setTimeout(120000);
-        String customLabel = System.Label.RecepientOrg;
-        request.setEndpoint(customLabel + queryParams); 
+        //String customLabel = System.Label.RecepientOrg;
+        request.setEndpoint(customLabel + leadConfig.BaseURL__c); 
         request.setHeader('Content-Type', 'application/json;charset=UTF-8');
         HTTPResponse response = http.send(request);
         
