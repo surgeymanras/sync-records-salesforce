@@ -6,6 +6,7 @@ import syncLead from '@salesforce/apex/SyncLeadButtonController.syncLead';
 export default class SyncLeadButton extends LightningElement {
     recordId;
     isLoaded = false;
+    error = null;
 
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -16,17 +17,20 @@ export default class SyncLeadButton extends LightningElement {
 
     connectedCallback(){
         syncLead({ recordId: this.recordId })
-            .then(() => {
-                this.toggle();
-            })
-            .catch(error => {
-                this.toggle();
-                console.error('Error:', error);
-            });
+            .then(() => this.handleLoaded())
+            .catch((error) => this.handleError(error));
     }
 
-    toggle() {
+    handleLoaded() {
+        console.log('Success');
         this.isLoaded = !this.isLoaded;
+        this.error = null;
+    }
+
+    handleError(error) {
+        console.error('Error', error);
+        this.isLoaded = !this.isLoaded;
+        this.error = error;
     }
 
     closeModal(){

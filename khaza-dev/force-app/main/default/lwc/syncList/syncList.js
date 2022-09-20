@@ -7,6 +7,8 @@ export default class SyncList extends LightningElement {
     clientID;
     clientSecret;
     selectedEnv;
+    successEvent;
+    errorEvent;
     value = '';
     
     @track sandboxFieldValue = true;
@@ -19,6 +21,20 @@ export default class SyncList extends LightningElement {
             { label: 'Production', value: 'production' },
         ];
     }
+
+    successEvent = new ShowToastEvent({
+        title: 'Sync Message',
+        message: 'Success saved',
+        variant: 'success',
+        mode: 'dismissable'
+    });
+
+    errorEvent = new ShowToastEvent({
+        title: 'Sync Message',
+        message: 'Record is not saved',
+        variant: 'error',
+        mode: 'dismissable'
+    });
 
     handleRadioChange(event) {
         this.selectedEnv = event.detail.value;
@@ -49,20 +65,12 @@ export default class SyncList extends LightningElement {
             env : this.selectedEnv,
         })
             .then((result) => {
-                this.save();
-                console.log('Success:', result)
+                console.log('Success:', result);
+                this.dispatchEvent(this.successEvent);
             })
             .catch(error => {
-                this.save();
                 console.error('Error:', error);
+                this.dispatchEvent(this.errorEvent);
             });
-
-            const evt = new ShowToastEvent({
-                title: 'Sync Message',
-                message: 'Success saved',
-                variant: 'success',
-                mode: 'dismissable'
-            });
-            this.dispatchEvent(evt);
     }
 }

@@ -1,13 +1,15 @@
 <template>
     <lightning-quick-action-panel title="Quick Action Title">
         <div class="slds-m-around_large">
-            <p if:true={isLoaded}>Lead synced successfully.</p>
+            <div if:true={isLoaded}>
+                <p if:true={error}>Error</p>
+                <p if:false={error}>Lead synced successfully</p>
+            </div>
             <div if:false={isLoaded} class="slds-is-relative">
                 <lightning-spinner size="small" alternative-text="Loading..."></lightning-spinner>
             </div>
         </div>
         <div slot="footer">
-            <lightning-button label="Toggle" variant="neutral" onclick={toggle}></lightning-button>
             <lightning-button label="Close" variant="brand" onclick={closeModal}></lightning-button>
         </div>
       </lightning-quick-action-panel>

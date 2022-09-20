@@ -8,9 +8,10 @@ public class AuthenticationDetailQueueable implements Queueable, Database.Allows
         HttpRequest request = new HttpRequest();
         request.setMethod('POST');
         request.setTimeout(120000);
-        //String customLabel = System.Label.RecepientOrg;
-        request.setEndpoint(customLabel + leadConfig.BaseURL__c); 
+        //String customLabel = System.Label.Second_part_for_recipient_org;
+        request.setEndpoint(leadConfig.BaseURL__c + '/services/oauth2/token' + queryParams); 
         request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        System.debug('setEndpoint ' + request.setEndpoint);
         HTTPResponse response = http.send(request);
         
         Map<String, Object> responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
