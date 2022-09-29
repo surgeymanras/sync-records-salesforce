@@ -1,4 +1,4 @@
-public with sharing class SyncListController {
+public with sharing class AuthorizationComponentController {
 
     @AuraEnabled(cacheable=false)
     public static RecepientOrg__c saveButton(String username, String clientID, String password, String clientSecret, String env) {
@@ -10,9 +10,9 @@ public with sharing class SyncListController {
         config.Password__c = password;
         config.Client_Secret__c = clientSecret;
         if (env == 'Sandbox') {
-            config.BaseURL__c = 'http://test.salesforce.com/';
+            config.BaseURL__c = 'https://test.salesforce.com/';
         } else {
-            config.BaseURL__c = 'http://login.salesforce.com/';
+            config.BaseURL__c = 'https://login.salesforce.com/';
         }
 
         update config;

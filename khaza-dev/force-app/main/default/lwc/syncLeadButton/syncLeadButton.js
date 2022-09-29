@@ -16,13 +16,14 @@ export default class SyncLeadButton extends LightningElement {
     }
 
     connectedCallback(){
+        console.log('recordId ' + this.recordId)
         syncLead({ recordId: this.recordId })
-            .then(() => this.handleLoaded())
+            .then((response) => this.handleLoaded(response))
             .catch((error) => this.handleError(error));
     }
 
-    handleLoaded() {
-        console.log('Success');
+    handleLoaded(response) {
+        console.log('Success', response);
         this.isLoaded = !this.isLoaded;
         this.error = null;
     }

@@ -3,15 +3,19 @@ public class AuthenticationDetailQueueable implements Queueable, Database.Allows
 
         RecepientOrg__c leadConfig = [SELECT Password__c, Username__c, Client_Id__c, Client_Secret__c, BaseURL__c FROM RecepientOrg__c LIMIT 1];
         String queryParams = '?grant_type=password&password=' + leadConfig.Password__c + '&username=' + leadConfig.Username__c +  '&client_id=' + leadConfig.Client_Id__c + '&client_secret=' + leadConfig.Client_Secret__c;
-       
+        System.debug('leadConfig ' + leadConfig);
+        
+        String endpoint = leadConfig.BaseURL__c + 'services/oauth2/token' + queryParams;
+
+        Map<String, String> headers = new Map<String, String>();
+        headers.put('Content-Type', 'application/json;charset=UTF-8');
+
+        String body = '';
+
+        //HttpRequest request = HttpCalloutManager.createRequest('POST', endpoint, JSON.serialize(body), headers);
         Http http = new Http();
-        HttpRequest request = new HttpRequest();
-        request.setMethod('POST');
-        request.setTimeout(120000);
-        //String customLabel = System.Label.Second_part_for_recipient_org;
-        request.setEndpoint(leadConfig.BaseURL__c + '/services/oauth2/token' + queryParams); 
-        request.setHeader('Content-Type', 'application/json;charset=UTF-8');
-        System.debug('setEndpoint ' + request.setEndpoint);
+        HttpRequest request = HttpCalloutManager.createRequest('POST', endpoint, body, headers);
+        
         HTTPResponse response = http.send(request);
         
         Map<String, Object> responseBody = (Map<String, Object>)JSON.deserializeUntyped(response.getBody());
@@ -24,3 +28,12 @@ public class AuthenticationDetailQueueable implements Queueable, Database.Allows
         update recepientOrgToken;
     }
 }
+
+        //Http http = new Http();
+        //HttpRequest request = new HttpRequest();
+        //request.setMethod('POST');
+        //request.setTimeout(120000);
+        //String customLabel = System.Label.Second_part_for_recipient_org;
+        //request.setEndpoint(leadConfig.BaseURL__c + 'services/oauth2/token' + queryParams); 
+        //request.setHeader('Content-Type', 'application/json;charset=UTF-8');
+        //System.debug('setEndpoint ' + request.setEndpoint);

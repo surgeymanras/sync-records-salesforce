@@ -1,7 +1,7 @@
 import { LightningElement, api, wire, track } from 'lwc';
-import saveButton from '@salesforce/apex/SyncListController.saveButton';
+import saveButton from '@salesforce/apex/AuthorizationComponentController.saveButton';
 import {ShowToastEvent} from "lightning/platformShowToastEvent";
-export default class SyncList extends LightningElement {
+export default class AuthorizationComponent extends LightningElement {
     username;
     password;
     clientID;
