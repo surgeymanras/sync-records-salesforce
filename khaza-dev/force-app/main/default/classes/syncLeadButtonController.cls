@@ -1,4 +1,8 @@
 public with sharing class SyncLeadButtonController {
+    public class ReturnValue {
+        Integer responseCode;
+        String responseBody;
+    }
     
     @AuraEnabled(cacheable=true)
     public static String syncLead(Id recordId) {
@@ -28,6 +32,13 @@ public with sharing class SyncLeadButtonController {
 
         system.debug('request ' + request);
         system.debug('response ' + response);
-        return response.getBody();
+
+        ReturnValue returnValue = new ReturnValue();
+        returnValue.responseCode = response.getStatusCode();
+        returnValue.responseBody = response.getBody();
+
+        System.debug('return value' + returnValue);
+
+        return JSON.serialize(returnValue);
     }
 }

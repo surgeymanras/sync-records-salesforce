@@ -23,9 +23,17 @@ export default class SyncLeadButton extends LightningElement {
     }
 
     handleLoaded(response) {
-        console.log('Success', response);
+        const { responseCode, responseBody } = JSON.parse(response);
+        console.log('Code:', responseCode);
+        console.log('Body:', responseBody);
+
+        if (responseCode >= 400) {
+            this.error = responseBody.errors || response.body.message;
+        }  else {
+            this.error = null;
+        }  
+
         this.isLoaded = !this.isLoaded;
-        this.error = null;
     }
 
     handleError(error) {
